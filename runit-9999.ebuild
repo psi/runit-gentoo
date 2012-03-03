@@ -56,7 +56,7 @@ src_install() {
 	doman man/*.[18]
 
 	exeinto /etc/runit
-	doexe etc/gentoo/{1,2,3} || die
+	doexe etc/gentoo/{1,2,3,logger.sh} || die
 
 	for tty in tty1 tty2 tty3 tty4 tty5 tty6; do
 		exeinto /etc/runit/service.avail/getty-$tty/
@@ -67,10 +67,13 @@ src_install() {
 		dosym /etc/runit/service.avail/getty-$tty /var/service/getty-$tty
 	done
 
-	for service in etc/gentoo/service.avail/*; do
-		exeinto /"${service}"
+	cd "${S}"/etc/gentoo/service.avail
+	for service in *; do
+		exeinto /etc/runit/service.avail/"${service}"
 		[ -f "${service}"/run ] && newexe "${service}"/run run
 		[ -f "${service}"/finish ] && newexe "${service}"/finish finish
+		[ -f "${service}"/log ] && { dosym /etc/runit/logger.sh \
+			/etc/runit/service.avail/"${service}"/log/run; }
 	done
 
 	# make sv command work
