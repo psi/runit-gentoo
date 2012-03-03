@@ -4,11 +4,11 @@
 
 EAPI="3"
 
-inherit toolchain-funcs flag-o-matic
+inherit toolchain-funcs flag-o-matic git-2
 
 DESCRIPTION="A UNIX init scheme with service supervision"
-HOMEPAGE="http://smarden.org/runit/"
-SRC_URI="http://smarden.org/runit/${P}.tar.gz"
+HOMEPAGE="http://github.com/ttuegel/runit-gentoo"
+EGIT_REPO_URI="git://github.com/ttuegel/runit-gentoo.git"
 
 LICENSE="BSD"
 SLOT="0"
