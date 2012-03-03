@@ -34,10 +34,8 @@ src_configure() {
 
 src_install() {
 	dodir /var
-	keepdir /etc/runit{,/runsvdir{,/default,/all}}
-	dosym default /etc/runit/runsvdir/current
-	dosym ../etc/runit/runsvdir/current /var/service
-	dosym ../etc/runit/2 /sbin/runsvdir-start
+	keepdir /var/service
+	keepdir /etc/runit{,/{boot,halt,service.avail}}
 
 	dobin $(<../package/commands) || die "dobin"
 	dodir /sbin
@@ -49,15 +47,14 @@ src_install() {
 	doman man/*.[18]
 
 	exeinto /etc/runit
-	doexe "${FILESDIR}"/{1,2,ctrlaltdel} || die
-	newexe "${FILESDIR}"/3-1.4 3 || die
+	doexe etc/gentoo/{1,2,3} || die
 	for tty in tty1 tty2 tty3 tty4 tty5 tty6; do
-		exeinto /etc/runit/runsvdir/all/getty-$tty/
+		exeinto /etc/runit/service.avail/getty-$tty/
 		for script in run finish; do
-			newexe "${FILESDIR}"/$script.getty $script
-			dosed "s:TTY:${tty}:g" /etc/runit/runsvdir/all/getty-$tty/$script
+			newexe etc/gentoo/service.avail/getty/$script $script
+			dosed "s:TTY:${tty}:g" /etc/runit/service.avail/getty-$tty/$script
 		done
-		dosym ../all/getty-$tty /etc/runit/runsvdir/default/getty-$tty
+		dosym /etc/runit/service.avail/getty-$tty /var/service/getty-$tty
 	done
 
 	# make sv command work
