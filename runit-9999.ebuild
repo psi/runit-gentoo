@@ -15,7 +15,10 @@ SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86"
 IUSE="dietlibc static"
 
-RDEPEND="dietlibc? ( dev-libs/dietlibc )"
+RDEPEND="
+	dietlibc? ( dev-libs/dietlibc )
+	app-shells/dash
+"
 DEPEND="${RDEPEND}"
 
 src_prepare() {
