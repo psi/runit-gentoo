@@ -1,2 +1,2 @@
 #!/bin/sh
-exec /sbin/agetty 38400 tty1 linux
+exec chpst -P /sbin/agetty 38400 tty1 linux
