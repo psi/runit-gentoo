@@ -60,10 +60,10 @@ src_install() {
 	doexe etc/gentoo/{1,2,3,logger.sh} || die
 
 	for tty in tty1 tty2 tty3 tty4 tty5 tty6; do
-		exeinto /etc/runit/services/getty-$tty/
+		exeinto /etc/runit/runsvdir/all/getty-$tty/
 		for script in run finish; do
-			newexe etc/gentoo/service.avail/getty/$script $script
-			dosed "s:TTY:${tty}:g" /etc/runit/service.avail/getty-$tty/$script
+			newexe etc/gentoo/services/getty/$script $script
+			dosed "s:TTY:${tty}:g" /etc/runit/runsvdir/all/getty-$tty/$script
 		done
 		dosym /etc/runit/runsvdir/all/getty-$tty \
 			/etc/runit/runsvdir/default/getty-$tty
