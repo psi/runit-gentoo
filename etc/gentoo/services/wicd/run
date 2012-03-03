@@ -1,4 +1,5 @@
 #!/bin/dash
+exec 2>&1
 echo "starting wicd..."
 echo "waiting for dbus..."
 sv start dbus || exit 1

@@ -1,4 +1,5 @@
 #!/bin/dash
+exec 2>&1
 echo "starting dbus..."
 echo "waiting for syslog..."
 sv start syslog || exit 1
