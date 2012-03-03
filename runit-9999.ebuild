@@ -18,6 +18,7 @@ IUSE="dietlibc static"
 RDEPEND="
 	dietlibc? ( dev-libs/dietlibc )
 	app-shells/dash
+	!sys-apps/sysvinit
 "
 DEPEND="${RDEPEND}"
 
@@ -48,8 +49,13 @@ src_install() {
 
 	cd "${S}/src"
 	dobin $(<../package/commands) || die "dobin"
+
+	cd "${S}/sbin"
 	dodir /sbin
+	exeinto /sbin
+	doexe halt reboot
 	mv "${D}"/usr/bin/{runit-init,runit,utmpset} "${D}"/sbin/ || die "dosbin"
+	dosym /sbin/runit-init /sbin/init
 
 	cd "${S}"
 	dodoc package/{CHANGES,README,THANKS,TODO}
