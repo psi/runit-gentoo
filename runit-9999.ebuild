@@ -32,16 +32,22 @@ src_configure() {
 	echo "${diet} $(tc-getCC) ${LDFLAGS}" > conf-ld
 }
 
+src_compile() {
+	cd "${S}"/src
+	emake || die "emake failed"
+}
+
 src_install() {
 	dodir /var
 	keepdir /var/service
 	keepdir /etc/runit{,/{boot,halt,service.avail}}
 
+	cd "${S}/src"
 	dobin $(<../package/commands) || die "dobin"
 	dodir /sbin
 	mv "${D}"/usr/bin/{runit-init,runit,utmpset} "${D}"/sbin/ || die "dosbin"
 
-	cd "${S}"/..
+	cd "${S}"
 	dodoc package/{CHANGES,README,THANKS,TODO}
 	dohtml doc/*.html
 	doman man/*.[18]
