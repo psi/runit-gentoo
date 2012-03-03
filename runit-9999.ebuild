@@ -57,6 +57,7 @@ src_install() {
 
 	exeinto /etc/runit
 	doexe etc/gentoo/{1,2,3} || die
+
 	for tty in tty1 tty2 tty3 tty4 tty5 tty6; do
 		exeinto /etc/runit/service.avail/getty-$tty/
 		for script in run finish; do
@@ -64,6 +65,12 @@ src_install() {
 			dosed "s:TTY:${tty}:g" /etc/runit/service.avail/getty-$tty/$script
 		done
 		dosym /etc/runit/service.avail/getty-$tty /var/service/getty-$tty
+	done
+
+	for service in etc/gentoo/service.avail/*; do
+		exeinto /"${service}"
+		[ -f "${service}"/run ] && newexe "${service}"/run run
+		[ -f "${service}"/finish ] && newexe "${service}"/finish finish
 	done
 
 	# make sv command work
