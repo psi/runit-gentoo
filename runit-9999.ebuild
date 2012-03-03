@@ -84,6 +84,14 @@ src_install() {
 			/etc/runit/runsvdir/all/"${service}"/log/run; }
 	done
 
+	for level in boot halt; do
+		cd "${S}"/etc/gentoo/$level
+		for script in *; do
+			exeinto /etc/runit/$level
+			doexe $script
+		done
+	done
+
 	# make sv command work
 	cd "${S}"
 	insinto /etc/env.d
