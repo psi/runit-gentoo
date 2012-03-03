@@ -1,2 +1,4 @@
 #!/bin/dash
-exec wicd -f 2>&1 >/dev/null
+exec 2>&1 >/dev/null
+sv start dbus || exit 1
+exec wicd -f
