@@ -42,8 +42,9 @@ src_compile() {
 
 src_install() {
 	dodir /var
-	keepdir /var/service
-	keepdir /etc/runit{,/{boot,halt,service.avail}}
+	keepdir /etc/runit{,/runsvdir{,/default,/all}}
+	dosym default /etc/runit/runsvdir/current
+	dosym ../etc/runit/runsvdir/current /var/service
 
 	cd "${S}/src"
 	dobin $(<../package/commands) || die "dobin"
@@ -59,21 +60,22 @@ src_install() {
 	doexe etc/gentoo/{1,2,3,logger.sh} || die
 
 	for tty in tty1 tty2 tty3 tty4 tty5 tty6; do
-		exeinto /etc/runit/service.avail/getty-$tty/
+		exeinto /etc/runit/services/getty-$tty/
 		for script in run finish; do
 			newexe etc/gentoo/service.avail/getty/$script $script
 			dosed "s:TTY:${tty}:g" /etc/runit/service.avail/getty-$tty/$script
 		done
-		dosym /etc/runit/service.avail/getty-$tty /var/service/getty-$tty
+		dosym /etc/runit/runsvdir/all/getty-$tty \
+			/etc/runit/runsvdir/default/getty-$tty
 	done
 
-	cd "${S}"/etc/gentoo/service.avail
+	cd "${S}"/etc/gentoo/services
 	for service in *; do
-		exeinto /etc/runit/service.avail/"${service}"
+		exeinto /etc/runit/runsvdir/all/"${service}"
 		[ -f "${service}"/run ] && newexe "${service}"/run run
 		[ -f "${service}"/finish ] && newexe "${service}"/finish finish
 		[ -f "${service}"/log ] && { dosym /etc/runit/logger.sh \
-			/etc/runit/service.avail/"${service}"/log/run; }
+			/etc/runit/runsvdir/all/"${service}"/log/run; }
 	done
 
 	# make sv command work
