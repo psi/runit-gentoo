@@ -1,7 +1,9 @@
 /* Public domain. */
 
+#include <grp.h>
 #include "hasshsgr.h"
 #include "prot.h"
+#include <unistd.h>
 
 int prot_gid(int gid)
 {

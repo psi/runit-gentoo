@@ -5,6 +5,7 @@
 #include "str.h"
 #include "env.h"
 #include "pathexec.h"
+#include <unistd.h>
 
 static stralloc tmp;
 

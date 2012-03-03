@@ -2,6 +2,7 @@
 
 #include <sys/types.h>
 #include "seek.h"
+#include <unistd.h>
 
 #define SET 0 /* sigh */
 
