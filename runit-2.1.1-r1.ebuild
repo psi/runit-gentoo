@@ -13,9 +13,10 @@ SRC_URI="http://smarden.org/runit/${P}.tar.gz"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86"
-IUSE="static"
+IUSE="dietlibc static"
 
-S=${WORKDIR}/admin/${P}/src
+RDEPEND="dietlibc? ( dev-libs/dietlibc )"
+DEPEND="${RDEPEND}"
 
 src_prepare() {
 	# we either build everything or nothing static
@@ -23,10 +24,12 @@ src_prepare() {
 }
 
 src_configure() {
+	local diet=""
+	use dietlibc && diet="diet -Os"
 	use static && append-ldflags -static
 
-	echo "$(tc-getCC) ${CFLAGS}"  > conf-cc
-	echo "$(tc-getCC) ${LDFLAGS}" > conf-ld
+	echo "${diet} $(tc-getCC) ${CFLAGS}"  > conf-cc
+	echo "${diet} $(tc-getCC) ${LDFLAGS}" > conf-ld
 }
 
 src_install() {
