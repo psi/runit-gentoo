@@ -3,9 +3,6 @@
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
-RUNLEVEL=S /sbin/rc sysinit
-RUNLEVEL=S /sbin/rc boot
-
 echo 'Running boot scripts...'
 for script in /etc/runit/boot/*; do
     [ -x "${script}" ] && "${script}"
