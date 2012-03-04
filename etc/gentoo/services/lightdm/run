@@ -1,6 +1,6 @@
 #!/bin/dash
+. /etc/runit/lib-stage-2.sh
 exec 2>&1
-echo "waiting for dbus..."
-sv start dbus || exit 1
+wait_for dbus
 echo "starting lightdm..."
 exec lightdm
