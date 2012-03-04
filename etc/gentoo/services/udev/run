@@ -1,0 +1,5 @@
+#!/bin/dash
+. /etc/runit/lib-stage-2.sh
+wait_for dbus
+echo "starting udev..."
+exec udev
