@@ -6,7 +6,10 @@ echo 'Waiting for getties to stop...'
 sv -w 10 shutdown /var/service/getty-*
 
 echo 'Waiting for services to stop...'
-sv -w 300 shutdown /var/service/*
+sv -w 60 shutdown /var/service/*
+
+echo 'Killing remaining services...'
+sv kill /var/service/*
 
 echo 'Running halt scripts...'
 for script in /etc/runit/halt/*; do
