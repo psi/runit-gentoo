@@ -1,6 +1,6 @@
 #!/bin/dash
 exec 2>&1
-echo "starting avahi..."
 echo "waiting for dbus..."
 sv start dbus || exit 1
+echo "starting avahi..."
 exec avahi-daemon -s

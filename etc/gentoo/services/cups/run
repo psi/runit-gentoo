@@ -1,6 +1,6 @@
 #!/bin/dash
 exec 2>&1
-echo "starting cups..."
 echo "waiting for syslog..."
 sv start syslog || exit 1
+echo "starting cups..."
 exec cupsd -f

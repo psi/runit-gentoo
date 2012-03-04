@@ -1,6 +1,6 @@
 #!/bin/dash
 exec 2>&1
-echo "starting ntp..."
 echo "waiting for syslog..."
 sv start syslog || exit 1
+echo "starting ntp..."
 exec ntpd --nofork
