@@ -8,6 +8,11 @@ sv -w 10 shutdown /var/service/getty-*
 echo 'Waiting for services to stop...'
 sv -w 300 shutdown /var/service/*
 
+echo 'Running halt scripts...'
+for script in /etc/runit/halt/*; do
+    [ -x "${script}" ] && "${script}"
+done
+
 echo 'Shutdown...'
 test -x /etc/runit/reboot && LAST=6    || LAST=0
 test -x /etc/runit/reboot && RC=reboot || RC=shutdown
