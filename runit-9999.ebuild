@@ -86,10 +86,16 @@ src_install() {
 
 	for level in boot halt; do
 		cd "${S}"/etc/gentoo/$level
+		exeinto /etc/runit/$level
 		for script in *; do
-			exeinto /etc/runit/$level
 			doexe $script
 		done
+	done
+
+	cd "${S}"/etc/gentoo/conf.d
+	exeinto /etc/runit/conf.d
+	for conf in *; do
+		doexe $conf
 	done
 
 	# make sv command work
