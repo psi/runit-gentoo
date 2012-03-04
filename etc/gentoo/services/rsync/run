@@ -1,0 +1,6 @@
+#!/bin/dash
+exec 2>&1
+echo "waiting for syslog..."
+sv start syslog || exit 1
+echo "starting rsyncd..."
+exec rsync --daemon --no-detach
