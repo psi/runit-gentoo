@@ -13,12 +13,12 @@ EGIT_REPO_URI="git://github.com/ttuegel/runit-gentoo.git"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86"
-IUSE="dietlibc static"
+IUSE="dietlibc replace-sysvinit static"
 
 RDEPEND="
 	dietlibc? ( dev-libs/dietlibc )
 	app-shells/dash
-	!sys-apps/sysvinit
+	replace-sysvinit? ( !sys-apps/sysvinit )
 "
 DEPEND="${RDEPEND}"
 
@@ -53,9 +53,9 @@ src_install() {
 	cd "${S}/sbin"
 	dodir /sbin
 	exeinto /sbin
-	doexe halt reboot
+	use replace-sysvinit && doexe halt reboot
 	mv "${D}"/usr/bin/{runit-init,runit,utmpset} "${D}"/sbin/ || die "dosbin"
-	dosym /sbin/runit-init /sbin/init
+	use replace-sysvinit && dosym /sbin/runit-init /sbin/init
 
 	cd "${S}"
 	dodoc package/{CHANGES,README,THANKS,TODO}
