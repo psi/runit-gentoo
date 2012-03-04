@@ -1,4 +1,6 @@
 #!/bin/dash
+local urandom_seed=/var/lib/misc/random-seed
+
 echo "Saving random seed..."
 local psz=1
 
