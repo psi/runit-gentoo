@@ -63,7 +63,7 @@ src_install() {
 	doman man/*.[18]
 
 	exeinto /etc/runit
-	doexe etc/gentoo/{1,2,3,logger.sh} || die
+	doexe etc/gentoo/{1,2,3,logger.sh,lib-stage-2.sh} || die
 
 	for tty in tty1 tty2 tty3 tty4 tty5 tty6; do
 		exeinto /etc/runit/runsvdir/all/getty-$tty/
